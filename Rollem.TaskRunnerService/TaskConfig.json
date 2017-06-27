@@ -1,0 +1,10 @@
+﻿{
+    "defaultIntervalInMinutes": 15,
+    "fileTasks": [
+        {
+            "intervalInMinutes": 1,
+            "taskName": "Hello Task!",
+            "fileLocation": "Tasks/hello.bat"
+        }
+    ]
+}
