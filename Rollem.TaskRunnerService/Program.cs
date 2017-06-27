@@ -140,6 +140,7 @@ namespace Rollem.TaskRunnerService
         protected abstract void ExecuteInternal(LogWriter log);
         public void Execute(LogWriter log, DateTime now)
         {
+            //TODO: Move this to TaskManager
             //execute on a new thread
             Task.Factory.StartNew(() =>
             {
