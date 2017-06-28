@@ -34,7 +34,7 @@ namespace Rollem.TaskRunnerService
         public bool Start()
         {
             _timer.Start();
-            _logger.Debug("Service started.");
+            _logger.InfoFormat("Service started.");
             return true;
         }
 
@@ -42,7 +42,7 @@ namespace Rollem.TaskRunnerService
         {
             _timer.Stop();
             _taskManagerService.Dispose();
-            _logger.Debug("Service stopped.");
+            _logger.InfoFormat("Service stopped.");
             return true;
         }
     }

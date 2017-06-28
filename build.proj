@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
 
   <PropertyGroup>
-    <Configuration>Debug</Configuration>
+    <Configuration>Release</Configuration>
     <SolutionFileName>TaskRunnerService.sln</SolutionFileName>
     <OutputPath>$(MSBuildStartupDirectory)\build</OutputPath>
     <ZipPath>$(MSBuildStartupDirectory)\binaries</ZipPath>

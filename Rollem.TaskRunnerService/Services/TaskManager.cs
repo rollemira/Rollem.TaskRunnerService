@@ -4,8 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Medallion.Shell;
 using Microsoft.Win32.SafeHandles;
-using Rollem.TaskRunnerService.Config;
+using Rollem.TaskRunnerService.Models;
 using Rollem.TaskRunnerService.Tasks;
 using Topshelf.Logging;
 
@@ -32,7 +33,15 @@ namespace Rollem.TaskRunnerService.Services
             tasksToRun.ForEach(t =>
             {
                 //give task cancellation token
-                t.Execute(now, _token);
+                var task = t.Execute(now, _token);
+                task.Wait(1000 * t.TimeoutInMinutes, _token);
+
+                var fileTaskResult = task as Task<CommandResult>;
+                if (fileTaskResult != null)
+                {
+                    var result = fileTaskResult.Result;
+                    t.OutputResults(result);
+                }
             });
         }
 
@@ -62,7 +71,7 @@ namespace Rollem.TaskRunnerService.Services
                 task.FileLocation = t.FileLocation;
 
                 TasksCache.Add(task);
-                _logger.DebugFormat("FileTask: {0} has been loaded and will run every {1} minute(s).", task.TaskName,
+                _logger.InfoFormat("FileTask: {0} has been loaded and will run every {1} minute(s).", task.TaskName,
                     task.IntervalInMinutes);
             });
         }

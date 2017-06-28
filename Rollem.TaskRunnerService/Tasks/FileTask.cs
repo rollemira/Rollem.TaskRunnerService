@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Medallion.Shell;
 using Topshelf.Logging;
 
@@ -10,7 +11,6 @@ namespace Rollem.TaskRunnerService.Tasks
     internal class FileTask : BaseTask
     {
         private readonly LogWriter _logger = HostLogger.Get(typeof(FileTask));
-        private const string TaskLogFmt = "[Task][{0}][{1}]: {2}";
 
         public FileTask(string taskName, int intervalInMinutes, int timeoutInMinutes)
             : base(taskName, intervalInMinutes, timeoutInMinutes)
@@ -19,14 +19,13 @@ namespace Rollem.TaskRunnerService.Tasks
 
         public string FileLocation { get; set; }
 
-        protected override void ExecuteInternal(CancellationToken token)
+        protected override Task ExecuteInternal(CancellationToken token)
         {
             var file = FixUpFileLocation(FileLocation);
 
             var cmd = Command.Run(file, null, opts =>
             {
                 opts
-                    .Timeout(TimeSpan.FromMinutes(TimeoutInMinutes))
                     .StartInfo(i =>
                     {
                         i.RedirectStandardOutput = true;
@@ -34,15 +33,25 @@ namespace Rollem.TaskRunnerService.Tasks
                     });
             });
 
-            cmd.Wait();
+            return cmd.Task;
+        }
 
-            if (!cmd.Result.Success)
+        public override void OutputResults(object taskResult)
+        {
+            var result = taskResult as CommandResult;
+
+            if (result != null)
             {
-                _logger.ErrorFormat(TaskLogFmt, TaskName,  "Error", cmd.Result.StandardError);
-                _logger.ErrorFormat(TaskLogFmt, TaskName, "ExitCode", cmd.Result.ExitCode);
+                _logger.InfoFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Output, result.StandardOutput);
+
+                if (!result.Success)
+                {
+                    _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Error, result.StandardError);
+                    _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.ExitCode, result.ExitCode);
+                }   
             }
 
-            _logger.DebugFormat(TaskLogFmt, TaskName, "Output", cmd.Result.StandardOutput);
+            base.OutputResults(result);
         }
 
         private string FixUpFileLocation(string fileLocation)

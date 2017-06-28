@@ -1,4 +1,4 @@
-﻿namespace Rollem.TaskRunnerService.Config
+﻿namespace Rollem.TaskRunnerService.Models
 {
     internal class FileTaskConfig
     {

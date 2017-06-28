@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Rollem.TaskRunnerService.Config
+namespace Rollem.TaskRunnerService.Models
 {
     internal class TaskConfig
     {

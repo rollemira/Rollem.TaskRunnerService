@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using Rollem.TaskRunnerService.Config;
+using Rollem.TaskRunnerService.Models;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService.Services
