@@ -2,6 +2,6 @@
 
 "%~dp0Rollem.TaskRunnerService.exe" install
 
-net start WellworxPrintService
+net start RollemTaskRunnerService
 
 pause

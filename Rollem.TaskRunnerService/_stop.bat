@@ -1,5 +1,5 @@
 ﻿@echo off
 
-net stop Rollem.TaskRunnerService
+net stop RollemTaskRunnerService
 
 pause

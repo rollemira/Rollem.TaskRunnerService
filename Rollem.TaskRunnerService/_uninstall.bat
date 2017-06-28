@@ -1,6 +1,6 @@
 ﻿@echo off
 
-net stop Rollem.TaskRunnerService
+net stop RollemTaskRunnerService
 
 "%~dp0Rollem.TaskRunnerService.exe" uninstall
 
