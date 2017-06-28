@@ -1,10 +1,12 @@
 ﻿{
     "defaultIntervalInMinutes": 15,
+    "defaultTimeoutInMinutes": 30,
     "fileTasks": [
         {
             "intervalInMinutes": 1,
+            "timeoutInMinutes": 10,
             "taskName": "Hello Task!",
-            "fileLocation": "FileTasks/hello.bat"
+            "fileLocation": "FileTasks\\hello.bat"
         }
     ]
 }

@@ -1,3 +1,8 @@
 echo hello
-
-pause
+echo hello
+echo hello
+echo hello
+echo hello
+echo hello
+echo hello
+echo hello

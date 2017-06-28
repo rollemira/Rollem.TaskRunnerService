@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Timers;
+using Rollem.TaskRunnerService.Services;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService
@@ -9,7 +10,7 @@ namespace Rollem.TaskRunnerService
         private const int TimerFireInSeconds = 10;
         private readonly LogWriter _logger = HostLogger.Get(typeof(ServiceController));
         private readonly Timer _timer;
-        private readonly TaskManager _taskManager;
+        private readonly TaskManagerService _taskManagerService;
 
         public ServiceController()
         {
@@ -19,14 +20,14 @@ namespace Rollem.TaskRunnerService
             };
             _timer.Elapsed += ElapsedFired;
 
-            _taskManager = new TaskManager(_logger);
+            _taskManagerService = new TaskManagerService();
 
             _logger.Debug("ServiceController constructed.");
         }
 
         private void ElapsedFired(object sender, ElapsedEventArgs e)
         {
-            _taskManager.ExecutePastDueJobs(DateTime.Now);
+            _taskManagerService.ExecutePastDueJobs(DateTime.Now);
             _logger.Debug("Interval fired.");
         }
 
@@ -40,7 +41,7 @@ namespace Rollem.TaskRunnerService
         public bool Stop()
         {
             _timer.Stop();
-            _taskManager.Dispose();
+            _taskManagerService.Dispose();
             _logger.Debug("Service stopped.");
             return true;
         }

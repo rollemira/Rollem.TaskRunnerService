@@ -5,6 +5,7 @@ namespace Rollem.TaskRunnerService.Config
     internal class TaskConfig
     {
         public int DefaultIntervalInMinutes { get; set; }
+        public int DefaultTimeoutInMinutes { get; set; }
         public List<FileTaskConfig> FileTasks { get; set; }
     }
 }
