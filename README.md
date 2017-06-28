@@ -1,4 +1,4 @@
-C# app that runs as a Windows Service that executes tasks.
+# C# app that runs as a Windows Service that executes tasks.
 
 This software is under the [MIT License](https://opensource.org/licenses/MIT)
 
