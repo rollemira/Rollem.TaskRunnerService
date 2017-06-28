@@ -1,4 +1,4 @@
-# Fun little C# project that will run tasks as a Windows Service.
+C# app that runs as a Windows Service that executes tasks.
 
 This software is under the [MIT License](https://opensource.org/licenses/MIT)
 
