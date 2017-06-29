@@ -17,13 +17,11 @@ namespace Rollem.TaskRunnerService.Services
         private readonly LogWriter _logger = HostLogger.Get(typeof(TaskManagerService));
         private static readonly List<BaseTask> TasksCache = new List<BaseTask>();
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private readonly CancellationToken _token;
         private bool _disposed = false;
         private readonly SafeHandle _handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public TaskManagerService()
         {
-            _token = _tokenSource.Token;
             LoadTasksFromConfig();
         }
 
@@ -33,8 +31,9 @@ namespace Rollem.TaskRunnerService.Services
             tasksToRun.ForEach(t =>
             {
                 //give task cancellation token
-                var task = t.Execute(now, _token);
-                task.Wait(1000 * t.TimeoutInMinutes, _token);
+                var token = _tokenSource.Token;
+                var task = t.Execute(now, token);
+                task.Wait(1000 * t.TimeoutInMinutes, token);
 
                 var fileTaskResult = task as Task<CommandResult>;
                 if (fileTaskResult != null)
