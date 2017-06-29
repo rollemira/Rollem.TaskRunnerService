@@ -20,6 +20,14 @@ namespace Rollem.TaskRunnerService.Services
                 throw new ApplicationException("TaskConfig.json was not found.");
 
             var result = JsonConvert.DeserializeObject<TaskConfig>(configJson);
+
+            //set any defaults
+            result.FileTasks.ForEach(t =>
+            {
+                t.IntervalInMinutes = t.IntervalInMinutes ?? result.DefaultIntervalInMinutes;
+                t.TimeoutInMinutes = t.TimeoutInMinutes ?? result.DefaultIntervalInMinutes;
+            });
+
             Logger.Debug("Config loaded.");
             return result;
         }

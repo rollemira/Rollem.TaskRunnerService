@@ -64,8 +64,8 @@ namespace Rollem.TaskRunnerService.Services
             {
                 var task = (FileTask) Activator.CreateInstance(typeof (FileTask),
                     t.TaskName,
-                    (t.IntervalInMinutes != 0) ? t.IntervalInMinutes : config.DefaultIntervalInMinutes,
-                    (t.TimeoutInMinutes !=0) ? t.TimeoutInMinutes : config.DefaultTimeoutInMinutes);
+                    t.IntervalInMinutes,
+                    t.TimeoutInMinutes);
 
                 task.FileLocation = t.FileLocation;
 
