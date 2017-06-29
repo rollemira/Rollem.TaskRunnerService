@@ -26,6 +26,7 @@ namespace Rollem.TaskRunnerService.Tasks
             var cmd = Command.Run(file, null, opts =>
             {
                 opts
+                    .Timeout(TimeSpan.FromMinutes(TimeoutInMinutes))
                     .StartInfo(i =>
                     {
                         i.RedirectStandardOutput = true;
