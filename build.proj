@@ -43,5 +43,6 @@
     </ItemGroup>
     <Zip TaskAction="Create" CompressFiles="@(Files)" ZipFileName="$(ZipPath)\RollemTaskRunnerService.zip"
          RemoveRoot="$(OutputPath)" CompressionLevel="BestCompression"/>
+    <Message Text="Zip file created." />
   </Target>
 </Project>
