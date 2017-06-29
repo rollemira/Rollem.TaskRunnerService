@@ -33,6 +33,10 @@ namespace Rollem.TaskRunnerService.Tasks
                     });
             });
 
+            //register the kill command to cancellation token
+            // https://github.com/madelson/MedallionShell/issues/18
+            token.Register(() => cmd.Kill());
+
             return cmd.Task;
         }
 
