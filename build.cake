@@ -4,7 +4,7 @@ var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";
 var buildDirectory = Directory("./build");
-var projectBuildDirectory = Directory("./Rollem.TaskRunnerService/bin/" + configuration);
+var projectOutputDirectory = Directory("./Rollem.TaskRunnerService/bin/" + configuration);
 var publishDirectory = Directory("./publish");
 var publishPath = publishDirectory.Path + "/RollemTaskRunnerService.zip";
 
@@ -13,12 +13,11 @@ Task("Default")
 
 Task("Clean")
     .Does(()=>{
-        Information("Project build directory " + projectBuildDirectory.Path);
         //get things to clean
         var c = new List<DirectoryPath>();
         c.Add(buildDirectory);
         c.Add(publishDirectory);
-        c.Add(projectBuildDirectory);
+        c.Add(projectOutputDirectory);
         //clean
         CleanDirectories(c);
         //make directories
@@ -43,13 +42,13 @@ Task("Build")
 Task("Copy")
     .IsDependentOn("Build")
     .Does(()=>{
-        CopyDirectory(projectBuildDirectory.Path, buildDirectory.Path);
+        CopyDirectory(projectOutputDirectory, buildDirectory);
     });
 
 Task("Publish")
     .IsDependentOn("Copy")
     .Does(()=>{
-        Zip(buildDirectory.Path, publishPath);
+        Zip(buildDirectory, publishPath);
     });
 
 RunTarget(target);
