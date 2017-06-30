@@ -1,20 +1,27 @@
 var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";
-var output = Directory("./build");
-var projectBuild = GetDirectories(string.Format("./**/bin/{0}", configuration));
+var buildDirectory = Directory("./build");
+var publishDirectory = Directory("./publish");
+var projectBuildDirectories = GetDirectories(string.Format("./**/bin/{0}", configuration));
 var zipName = "RollemTaskRunnerService.zip";
-var publishPath = "./binaries/" + zipName;
+var publishPath = "./publish/" + zipName;
 
 Task("Default")
     .IsDependentOn("Publish");
 
 Task("Clean")
     .Does(()=>{
+        //get things to clean
         var c = new List<DirectoryPath>();
-        c.Add(output);
-        c.AddRange(projectBuild);
+        c.Add(buildDirectory);
+        c.Add(publishDirectory);
+        c.AddRange(projectBuildDirectories);
+        //clean
         CleanDirectories(c);
+        //make directories
+        CreateDirectory(buildDirectory);
+        CreateDirectory(publishDirectory);
     });
 
 Task("RestorePackages")
@@ -34,15 +41,15 @@ Task("Build")
 Task("Copy")
     .IsDependentOn("Build")
     .Does(()=>{
-        foreach(var d in projectBuild) {
-            CopyDirectory(d, output);
+        foreach(var d in projectBuildDirectories) {
+            CopyDirectory(d, buildDirectory);
         }
     });
 
 Task("Publish")
     .IsDependentOn("Copy")
     .Does(()=>{
-        Zip(output, publishPath);
+        Zip(buildDirectory, publishPath);
     });
 
 RunTarget(target);
