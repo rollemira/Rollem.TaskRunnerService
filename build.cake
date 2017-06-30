@@ -17,8 +17,14 @@ Task("Clean")
         CleanDirectories(c);
     });
 
-Task("Build")
+Task("RestorePackages")
     .IsDependentOn("Clean")
+    .Does(()=>{
+        NuGetRestore(solutionFile);
+    });
+
+Task("Build")
+    .IsDependentOn("RestorePackages")
     .Does(()=>{
         MSBuild(solutionFile, new MSBuildSettings {
             Configuration = configuration
