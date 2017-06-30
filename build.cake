@@ -4,7 +4,7 @@ var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";
 var buildDirectory = Directory("./build");
-var projectBuildDirectories = GetDirectories(string.Format("./**/bin/{0}", configuration));
+var projectBuildDirectories = GetDirectories("./**/bin/" + configuration);
 var publishDirectory = Directory("./publish");
 var publishPath = publishDirectory.Path + "/RollemTaskRunnerService.zip";
 
@@ -13,6 +13,7 @@ Task("Default")
 
 Task("Clean")
     .Does(()=>{
+        Information("Project build directories " + projectBuildDirectories.Count);
         //get things to clean
         var c = new List<DirectoryPath>();
         c.Add(buildDirectory);
