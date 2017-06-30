@@ -2,8 +2,8 @@ var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";
 var buildDirectory = Directory("./build");
-var publishDirectory = Directory("./publish");
 var projectBuildDirectories = GetDirectories(string.Format("./**/bin/{0}", configuration));
+var publishDirectory = Directory("./publish");
 var publishPath = publishDirectory.Path + "/RollemTaskRunnerService.zip";
 
 Task("Default")
