@@ -2,6 +2,12 @@
 
 This software is under the [MIT License](https://opensource.org/licenses/MIT)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/al224v4w5pqd60y5/branch/master?svg=true)](https://ci.appveyor.com/project/rollemira/rollem-taskrunnerservice/branch/master)
+
+Tools:
+* CI with [AppVeyor](https://appveyor.com)
+* Builds with [Cake](http://cakebuild.net)
+
 3rd party libraries:
 * [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 * [log4net](https://logging.apache.org/log4net/)
