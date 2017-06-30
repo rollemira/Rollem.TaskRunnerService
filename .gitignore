@@ -12,6 +12,7 @@
 [Rr]elease/
 x64/
 build/
+binaries/
 [Bb]in/
 [Oo]bj/
 BuildArtifacts/
