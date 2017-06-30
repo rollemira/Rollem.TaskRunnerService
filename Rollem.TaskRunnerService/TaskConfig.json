@@ -5,8 +5,12 @@
         {
             "intervalInMinutes": 1,
             "timeoutInMinutes": 10,
-            "taskName": "Hello Task!",
-            "fileLocation": "FileTasks\\hello.bat"
+            "taskName": "Task1",
+            "fileLocation": "FileTasks\\Task1.bat"
+        },
+        {
+            "taskName": "Task2",
+            "fileLocation": "FileTasks\\Task2.bat"
         }
     ]
 }

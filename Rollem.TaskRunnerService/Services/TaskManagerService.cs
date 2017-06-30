@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Medallion.Shell;
 using Microsoft.Win32.SafeHandles;
+using Rollem.TaskRunnerService.Bootstrap;
 using Rollem.TaskRunnerService.Models;
 using Rollem.TaskRunnerService.Tasks;
 using Topshelf.Logging;
@@ -22,6 +24,8 @@ namespace Rollem.TaskRunnerService.Services
 
         public TaskManagerService()
         {
+            //mappings
+            Mapper.Initialize(cfg => cfg.AddProfile<AppMapProfile>());
             LoadTasksFromConfig();
         }
 
@@ -39,8 +43,10 @@ namespace Rollem.TaskRunnerService.Services
                 if (fileTaskResult != null)
                 {
                     var result = fileTaskResult.Result;
-                    t.OutputResults(result);
+                    t.OutputResults(now, result);
                 }
+                var item = Mapper.Map<TaskLog>(t);
+                ConfigService.OutputLog(item);
             });
         }
 
@@ -62,13 +68,7 @@ namespace Rollem.TaskRunnerService.Services
         {
             config.FileTasks.ForEach(t =>
             {
-                var task = (FileTask) Activator.CreateInstance(typeof (FileTask),
-                    t.TaskName,
-                    t.IntervalInMinutes,
-                    t.TimeoutInMinutes);
-
-                task.FileLocation = t.FileLocation;
-
+                var task = Mapper.Map<FileTask>(t);
                 TasksCache.Add(task);
                 _logger.InfoFormat("FileTask: {0} has been loaded and will run every {1} minute(s).", task.TaskName,
                     task.IntervalInMinutes);

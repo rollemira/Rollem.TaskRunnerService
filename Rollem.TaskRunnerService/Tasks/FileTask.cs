@@ -12,11 +12,6 @@ namespace Rollem.TaskRunnerService.Tasks
     {
         private readonly LogWriter _logger = HostLogger.Get(typeof(FileTask));
 
-        public FileTask(string taskName, int intervalInMinutes, int timeoutInMinutes)
-            : base(taskName, intervalInMinutes, timeoutInMinutes)
-        {
-        }
-
         public string FileLocation { get; set; }
 
         protected override Task ExecuteInternal(CancellationToken token)
@@ -41,7 +36,7 @@ namespace Rollem.TaskRunnerService.Tasks
             return cmd.Task;
         }
 
-        public override void OutputResults(object taskResult)
+        public override void OutputResults(DateTime now, object taskResult)
         {
             var result = taskResult as CommandResult;
 
@@ -56,7 +51,7 @@ namespace Rollem.TaskRunnerService.Tasks
                 }   
             }
 
-            base.OutputResults(result);
+            base.OutputResults(now, result);
         }
 
         private string FixUpFileLocation(string fileLocation)

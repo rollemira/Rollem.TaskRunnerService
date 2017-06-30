@@ -9,21 +9,16 @@ namespace Rollem.TaskRunnerService.Tasks
     {
         private readonly LogWriter _logger = HostLogger.Get(typeof(BaseTask));
 
-        public BaseTask(string taskName, int intervalInMinutes, int timeoutInMinutes)
-        {
-            TaskName = taskName;
-            IntervalInMinutes = intervalInMinutes;
-            TimeoutInMinutes = timeoutInMinutes;
-        }
-
         public string TaskName { get; private set; }
         public int IntervalInMinutes { get; private set; }
         public int TimeoutInMinutes { get; set; }
+        public DateTime? LastRun { get; set; }
         public DateTime? NextRun { get; set; }
         protected abstract Task ExecuteInternal(CancellationToken token);
 
-        public virtual void OutputResults(object taskResult)
+        public virtual void OutputResults(DateTime now, object taskResult)
         {
+            LastRun = now;
             _logger.InfoFormat("Task: {0} completed", TaskName);
             _logger.InfoFormat("Task: {0} next run time will be {1}", TaskName, NextRun);
         }
