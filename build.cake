@@ -41,14 +41,14 @@ Task("Copy")
     .IsDependentOn("Build")
     .Does(()=>{
         foreach(var d in projectBuildDirectories) {
-            CopyDirectory(d, buildDirectory);
+            CopyDirectory(d.FullPath, buildDirectory.Path);
         }
     });
 
 Task("Publish")
     .IsDependentOn("Copy")
     .Does(()=>{
-        Zip(buildDirectory, publishPath);
+        Zip(buildDirectory.Path, publishPath);
     });
 
 RunTarget(target);
