@@ -1,3 +1,5 @@
+using System.Linq;
+
 var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";
@@ -40,9 +42,10 @@ Task("Build")
 Task("Copy")
     .IsDependentOn("Build")
     .Does(()=>{
-        foreach(var d in projectBuildDirectories) {
-            CopyDirectory(d.FullPath, buildDirectory.Path);
-        }
+        CopyDirectory(projectBuildDirectories.First().FullPath, buildDirectory.Path);
+        // foreach(var d in projectBuildDirectories) {
+        //     CopyDirectory(d.FullPath, buildDirectory.Path);
+        // }
     });
 
 Task("Publish")

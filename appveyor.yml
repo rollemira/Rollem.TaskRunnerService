@@ -1,9 +1,7 @@
 version: 1.0.{build}
-image: Visual Studio 2013
+image: Visual Studio 2015
 build_script:
 - ps: .\build.ps1
 test: off
 artifacts:
-- path: Rollem.TaskRunnerService/bin/Release
-  name: RollemTaskRunnerService
-  type: zip
+- path: publish/RollemTaskRunnerService.zip
