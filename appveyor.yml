@@ -1,7 +1,9 @@
 version: 1.0.{build}
 image: Visual Studio 2013
 build_script:
-- cmd: PowerShell .\build.ps1
+- ps: .\build.ps1
 test: off
 artifacts:
-- path: publish/RollemTaskRunnerService.zip
+- path: Rollem.TaskRunnerService/bin/Release
+  name: RollemTaskRunnerService
+  type: zip
