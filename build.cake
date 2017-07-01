@@ -43,6 +43,7 @@ Task("Copy")
     .IsDependentOn("Build")
     .Does(()=>{
         CopyDirectory(projectOutputDirectory, buildDirectory);
+        DeleteFiles(buildDirectory.Path + "/**/*.xml");
     });
 
 Task("Publish")
