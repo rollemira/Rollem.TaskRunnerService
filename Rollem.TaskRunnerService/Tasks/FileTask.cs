@@ -33,22 +33,27 @@ namespace Rollem.TaskRunnerService.Tasks
             return cmd.Task;
         }
 
-        public override void OutputResults(DateTime now, object taskResult)
+        public override void OutputResults(DateTime now, Task task)
         {
-            var result = taskResult as CommandResult;
-
-            if (result != null)
+            var fileTaskResult = task as Task<CommandResult>;
+            if (fileTaskResult != null)
             {
-                _logger.InfoFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Output, result.StandardOutput);
-
-                if (!result.Success)
+                var result = fileTaskResult.Result;
+                if (result != null)
                 {
-                    _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Error, result.StandardError);
-                    _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.ExitCode, result.ExitCode);
-                }   
-            }
+                    _logger.InfoFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Output,
+                        result.StandardOutput);
 
-            base.OutputResults(now, result);
+                    if (!result.Success)
+                    {
+                        _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.Error,
+                            result.StandardError);
+                        _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.ExitCode,
+                            result.ExitCode);
+                    }
+                }
+            }
+            base.OutputResults(now, task);
         }
 
         private string FixUpFileLocation(string fileLocation)

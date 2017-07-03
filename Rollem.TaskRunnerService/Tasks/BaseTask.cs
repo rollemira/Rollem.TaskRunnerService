@@ -16,7 +16,7 @@ namespace Rollem.TaskRunnerService.Tasks
         public DateTime? NextRun { get; set; }
         protected abstract Task ExecuteInternal(CancellationToken token);
 
-        public virtual void OutputResults(DateTime now, object taskResult)
+        public virtual void OutputResults(DateTime now, Task task)
         {
             LastRun = now;
             _logger.InfoFormat("Task: {0} completed", TaskName);

@@ -39,15 +39,9 @@ namespace Rollem.TaskRunnerService.Services
                 using (var task = t.Execute(now, token))
                 {
                     task.Wait(1000 * t.TimeoutInMinutes, token);
-
-                    var fileTaskResult = task as Task<CommandResult>;
-                    if (fileTaskResult != null)
-                    {
-                        var result = fileTaskResult.Result;
-                        t.OutputResults(now, result);
-                    }
+                    t.OutputResults(now, task);
                     var item = Mapper.Map<TaskLog>(t);
-                    ConfigService.OutputLog(item);   
+                    ConfigService.OutputLog(item);
                 }
             });
         }
