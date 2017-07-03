@@ -1,5 +1,3 @@
-using System.Linq;
-
 var target = Argument("target", "Default");
 var configuration = "Release";
 var solutionFile = "./TaskRunnerService.sln";

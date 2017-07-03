@@ -17,6 +17,9 @@ publish/
 [Oo]bj/
 BuildArtifacts/
 
+# Ignore cake tools
+tools/
+
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
 
