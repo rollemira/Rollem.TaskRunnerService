@@ -44,6 +44,7 @@ Task("Copy")
     .Does(()=>{
         CopyDirectory(projectOutputDirectory, buildDirectory);
         DeleteFiles(buildDirectory.Path + "/**/*.xml");
+        DeleteFiles(buildDirectory.Path + "/**/*.pdb");
     });
 
 Task("Publish")
