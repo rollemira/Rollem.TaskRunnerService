@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Rollem.TaskRunnerService.Services;
+using System;
 using System.Timers;
-using Rollem.TaskRunnerService.Services;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService

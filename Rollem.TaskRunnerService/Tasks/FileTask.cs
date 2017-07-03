@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Medallion.Shell;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Medallion.Shell;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService.Tasks

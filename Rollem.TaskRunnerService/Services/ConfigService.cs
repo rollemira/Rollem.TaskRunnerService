@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Rollem.TaskRunnerService.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Rollem.TaskRunnerService.Models;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService.Services
