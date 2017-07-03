@@ -21,6 +21,7 @@ namespace Rollem.TaskRunnerService.Tasks
             var cmd = Command.Run(file, null, opts =>
             {
                 opts
+                    .CancellationToken(token)
                     .Timeout(TimeSpan.FromMinutes(TimeoutInMinutes))
                     .StartInfo(i =>
                     {
@@ -28,10 +29,6 @@ namespace Rollem.TaskRunnerService.Tasks
                         i.WindowStyle = ProcessWindowStyle.Hidden;
                     });
             });
-
-            //register the kill command to cancellation token
-            // https://github.com/madelson/MedallionShell/issues/18
-            token.Register(() => cmd.Kill());
 
             return cmd.Task;
         }

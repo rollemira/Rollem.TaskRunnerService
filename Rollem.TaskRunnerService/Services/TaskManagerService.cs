@@ -36,17 +36,19 @@ namespace Rollem.TaskRunnerService.Services
             {
                 //give task cancellation token
                 var token = _tokenSource.Token;
-                var task = t.Execute(now, token);
-                task.Wait(1000 * t.TimeoutInMinutes, token);
-
-                var fileTaskResult = task as Task<CommandResult>;
-                if (fileTaskResult != null)
+                using (var task = t.Execute(now, token))
                 {
-                    var result = fileTaskResult.Result;
-                    t.OutputResults(now, result);
+                    task.Wait(1000 * t.TimeoutInMinutes, token);
+
+                    var fileTaskResult = task as Task<CommandResult>;
+                    if (fileTaskResult != null)
+                    {
+                        var result = fileTaskResult.Result;
+                        t.OutputResults(now, result);
+                    }
+                    var item = Mapper.Map<TaskLog>(t);
+                    ConfigService.OutputLog(item);   
                 }
-                var item = Mapper.Map<TaskLog>(t);
-                ConfigService.OutputLog(item);
             });
         }
 
@@ -91,6 +93,7 @@ namespace Rollem.TaskRunnerService.Services
                 _handle.Dispose();
                 //cancel any running tasks and dispose
                 _tokenSource.Cancel(false);
+                _tokenSource.Dispose();
             }
 
             _disposed = true;
