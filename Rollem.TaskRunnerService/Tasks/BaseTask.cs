@@ -14,6 +14,7 @@ namespace Rollem.TaskRunnerService.Tasks
         public int TimeoutInMinutes { get; set; }
         public DateTime? LastRun { get; set; }
         public DateTime? NextRun { get; set; }
+
         protected abstract Task ExecuteInternal(CancellationToken token);
 
         public virtual void OutputResults(DateTime now, Task task)
@@ -27,7 +28,7 @@ namespace Rollem.TaskRunnerService.Tasks
         {
             NextRun = now.AddMinutes(IntervalInMinutes);
             _logger.InfoFormat("Starting task: {0}", TaskName);
-           return ExecuteInternal(token);
+            return ExecuteInternal(token);
         }
     }
 }

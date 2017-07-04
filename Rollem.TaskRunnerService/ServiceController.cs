@@ -1,16 +1,20 @@
-﻿using Rollem.TaskRunnerService.Services;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Timers;
+using Microsoft.Win32.SafeHandles;
+using Rollem.TaskRunnerService.Services;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService
 {
-    internal class ServiceController
+    internal class ServiceController : IDisposable
     {
         private const int TimerFireInSeconds = 10;
         private readonly LogWriter _logger = HostLogger.Get(typeof(ServiceController));
         private readonly Timer _timer;
         private readonly TaskManagerService _taskManagerService;
+        private bool _disposed = false;
+        private readonly SafeHandle _handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public ServiceController()
         {
@@ -40,10 +44,31 @@ namespace Rollem.TaskRunnerService
 
         public bool Stop()
         {
+            Dispose(true);
             _timer.Stop();
-            _taskManagerService.Dispose();
             _logger.InfoFormat("Service stopped.");
             return true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _handle.Dispose();
+                //cancel any running tasks and dispose
+                _taskManagerService.Dispose();
+            }
+
+            _disposed = true;
         }
     }
 }

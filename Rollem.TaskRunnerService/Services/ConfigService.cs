@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using Rollem.TaskRunnerService.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
+using Rollem.TaskRunnerService.Models;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService.Services
@@ -25,7 +25,7 @@ namespace Rollem.TaskRunnerService.Services
         {
             Logger.DebugFormat("Loading config from {0}", ConfigFilePath);
             var configJson = File.ReadAllText(ConfigFilePath);
-            
+
             if (string.IsNullOrEmpty(configJson))
                 throw new ApplicationException("TaskConfig.json was not found.");
 
@@ -45,7 +45,7 @@ namespace Rollem.TaskRunnerService.Services
         public static void OutputLog(TaskLog item)
         {
             List<TaskLog> logItems = new List<TaskLog>();
-            
+
             //get current log items
             string logJson = null;
             if (File.Exists(RunLogFilePath))

@@ -1,13 +1,13 @@
-using AutoMapper;
-using Microsoft.Win32.SafeHandles;
-using Rollem.TaskRunnerService.Bootstrap;
-using Rollem.TaskRunnerService.Models;
-using Rollem.TaskRunnerService.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using AutoMapper;
+using Microsoft.Win32.SafeHandles;
+using Rollem.TaskRunnerService.Bootstrap;
+using Rollem.TaskRunnerService.Models;
+using Rollem.TaskRunnerService.Tasks;
 using Topshelf.Logging;
 
 namespace Rollem.TaskRunnerService.Services
@@ -48,10 +48,10 @@ namespace Rollem.TaskRunnerService.Services
         {
             if (TasksCache.Count == 0)
             {
-               var config = ConfigService.ReadConfig();
-               
+                var config = ConfigService.ReadConfig();
+
                 _logger.Debug("Reading config.");
-                
+
                 _logger.Debug("Loading file tasks.");
                 LoadFileTasks(config);
                 _logger.DebugFormat("{0} tasks loaded.", TasksCache.Count);
