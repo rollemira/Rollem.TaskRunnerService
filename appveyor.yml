@@ -6,6 +6,10 @@ test: off
 artifacts:
 - path: publish/RollemTaskRunnerService.zip
 
+branches:
+  only:
+    - master
+
 deploy:
   description: Release
   provider: GitHub
