@@ -9,6 +9,8 @@ artifacts:
 branches:
   only:
     - master
+except:
+  - /tree/* 
 
 deploy:
   description: Release
