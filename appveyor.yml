@@ -2,19 +2,17 @@ version: 1.0.{build}
 image: Visual Studio 2017
 build_script:
 - ps: .\build.ps1
+branches:
+  only:
+  - master
+skip_tags: true
 test: off
 artifacts:
 - path: publish/RollemTaskRunnerService.zip
-
-branches:
-  only:
-    - master
-
+  name: RollemTaskRunnerService.zip
 deploy:
   description: Release
   provider: GitHub
   auth_token:
     secure: DJM0jX1cqKdskvZm+eni+aWSuHlKBfqGN44PShesmgUz21n2/DW7eYKDhB8LIe3E
   artifact: publish/RollemTaskRunnerService.zip
-  on:
-    branch: master
