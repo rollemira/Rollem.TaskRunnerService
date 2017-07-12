@@ -51,7 +51,7 @@ namespace Rollem.TaskRunnerService.Tasks
                         _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.ExitCode,
                             result.ExitCode);
                     }
-                    Status = (result.ExitCode != 0)
+                    Status = result.ExitCode != 0
                         ? string.Format("Complete with exit code: {0}", result.ExitCode)
                         : "Success";
                 }
@@ -63,9 +63,9 @@ namespace Rollem.TaskRunnerService.Tasks
         {
             //if they use a : we assume full path, otherwise we need to add
             //this location to it.
-            return (!fileLocation.Contains(":")
+            return !fileLocation.Contains(":")
                 ? Path.Combine(Environment.CurrentDirectory, FileLocation)
-                : fileLocation);
+                : fileLocation;
         }
     }
 }

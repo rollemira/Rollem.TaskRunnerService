@@ -10,11 +10,11 @@ namespace Rollem.TaskRunnerService
     internal class ServiceController : IDisposable
     {
         private const int TimerFireInSeconds = 10;
-        private readonly LogWriter _logger = HostLogger.Get(typeof(ServiceController));
-        private readonly Timer _timer;
-        private readonly TaskManagerService _taskManagerService;
-        private bool _disposed = false;
         private readonly SafeHandle _handle = new SafeFileHandle(IntPtr.Zero, true);
+        private readonly LogWriter _logger = HostLogger.Get(typeof(ServiceController));
+        private readonly TaskManagerService _taskManagerService;
+        private readonly Timer _timer;
+        private bool _disposed;
 
         public ServiceController()
         {
@@ -27,6 +27,12 @@ namespace Rollem.TaskRunnerService
             _taskManagerService = new TaskManagerService();
 
             _logger.Debug("ServiceController constructed.");
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private void ElapsedFired(object sender, ElapsedEventArgs e)
@@ -48,12 +54,6 @@ namespace Rollem.TaskRunnerService
             _timer.Stop();
             _logger.InfoFormat("Service stopped.");
             return true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool disposing)

@@ -44,18 +44,14 @@ namespace Rollem.TaskRunnerService.Services
 
         public static void OutputLog(TaskLog item)
         {
-            List<TaskLog> logItems = new List<TaskLog>();
+            var logItems = new List<TaskLog>();
 
             //get current log items
             string logJson = null;
             if (File.Exists(RunLogFilePath))
-            {
                 logJson = File.ReadAllText(RunLogFilePath);
-            }
             if (!string.IsNullOrEmpty(logJson))
-            {
                 logItems = JsonConvert.DeserializeObject<List<TaskLog>>(logJson);
-            }
 
             //replace or add this one
             var existingItem = logItems.FirstOrDefault(i => i.TaskName == item.TaskName);

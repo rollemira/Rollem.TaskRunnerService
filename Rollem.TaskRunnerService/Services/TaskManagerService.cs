@@ -14,17 +14,23 @@ namespace Rollem.TaskRunnerService.Services
 {
     internal class TaskManagerService : IDisposable
     {
-        private readonly LogWriter _logger = HostLogger.Get(typeof(TaskManagerService));
         private static readonly List<BaseTask> TasksCache = new List<BaseTask>();
-        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private bool _disposed = false;
         private readonly SafeHandle _handle = new SafeFileHandle(IntPtr.Zero, true);
+        private readonly LogWriter _logger = HostLogger.Get(typeof(TaskManagerService));
+        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private bool _disposed;
 
         public TaskManagerService()
         {
             //mappings
             Mapper.Initialize(cfg => cfg.AddProfile<AppMapProfile>());
             LoadTasksFromConfig();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void ExecutePastDueJobs(DateTime now)
@@ -67,12 +73,6 @@ namespace Rollem.TaskRunnerService.Services
                 _logger.InfoFormat("FileTask: {0} has been loaded and will run every {1} minute(s).", task.TaskName,
                     task.IntervalInMinutes);
             });
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool disposing)
