@@ -51,6 +51,9 @@ namespace Rollem.TaskRunnerService.Tasks
                         _logger.ErrorFormat(Tokens.Formats.TaskLogFmt, TaskName, Tokens.TaskResults.ExitCode,
                             result.ExitCode);
                     }
+                    Status = (result.ExitCode != 0)
+                        ? string.Format("Complete with exit code: {0}", result.ExitCode)
+                        : "Success";
                 }
             }
             base.OutputResults(now, task);
