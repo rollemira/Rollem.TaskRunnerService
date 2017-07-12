@@ -2,7 +2,14 @@
 
 This software is under the [MIT License](https://opensource.org/licenses/MIT)
 
+Release:
+
+[![Release](https://img.shields.io/github/release/rollemira/Rollem.TaskRunnerService.svg)](https://github.com/rollemira/Rollem.TaskRunnerService/releases/latest)
+
+Build:
+
 [![Build status](https://ci.appveyor.com/api/projects/status/al224v4w5pqd60y5/branch/master?svg=true)](https://ci.appveyor.com/project/rollemira/rollem-taskrunnerservice/branch/master)
+
 
 Tools:
 * CI with [AppVeyor](https://appveyor.com)
