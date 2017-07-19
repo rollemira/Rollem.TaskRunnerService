@@ -37,7 +37,7 @@ namespace Rollem.TaskRunnerService
                     s.WhenStopped(sc => sc.Stop());
                 });
                 c.EnableServiceRecovery(s => { s.RestartService(1); });
-                c.RunAsLocalSystem();
+                c.RunAsPrompt();
                 c.StartAutomaticallyDelayed();
                 c.OnException(e => HostLogger.Get(typeof(ServiceController)).Fatal(e));
 
